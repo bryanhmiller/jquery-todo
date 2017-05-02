@@ -1,5 +1,6 @@
 $(document).ready(() => {
 	let apiKeys;
+	let editId = "";
 
 	$("#new-item").click(()=>{
 		$(".list-container").addClass("hide");
@@ -25,15 +26,26 @@ $(document).ready(() => {
 			isCompleted: false,
 			task: $("#add-todo-text").val()
 		};
-		FbApi.addTodo(apiKeys, newTodo).then(() => {
-			$("#add-todo-text").val("");
-			$(".new-container").addClass("hide");
-			$(".list-container").removeClass("hide");
-			FbApi.writeDom(apiKeys);
-		}).catch((error) => {
-			console.log("addTodo error", error);
-		});
-
+		if (editId.length > 0) {
+			FbApi.editTodo(apiKeys, newTodo, editId).then(() => {
+				$("#add-todo-text").val("");
+				editId = "";
+				$(".new-container").addClass("hide");
+				$(".list-container").removeClass("hide");
+				FbApi.writeDom(apiKeys);
+			}).catch((error) => {
+				console.log("addTodo error", error);
+			});
+		} else {
+			FbApi.addTodo(apiKeys, newTodo).then(() => {
+				$("#add-todo-text").val("");
+				$(".new-container").addClass("hide");
+				$(".list-container").removeClass("hide");
+				FbApi.writeDom(apiKeys);
+			}).catch((error) => {
+				console.log("addTodo error", error);
+			});
+		}
 	});
 
 // delete todo
@@ -46,25 +58,14 @@ $(document).ready(() => {
 	}); 
 
 
-
-
 // edit todo
 	$(".main-container").on("click", ".edit", (event) => {
 		let editText = $(event.target).closest(".col-xs-4").siblings(".col-xs-8").find(".task").html();
-		FbApi.editTodo(event.target.id).then(() => {
+		edit = event.target.id;
 			$(".list-container").addClass("hide");
 			$(".new-container").removeClass("hide");
 			$("#add-todo-text").val(editText);
-		}).catch((error) => {
-			console.log("editTodo error", error);
-		});
 	});
-
-
-
-
-
-
 
 
 // complete todos
