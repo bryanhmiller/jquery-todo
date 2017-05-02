@@ -70,8 +70,11 @@ $(document).ready(() => {
 
 // complete todos
 	$(".main-container").on("click", "input[type='checkbox']", (event) => {
-		console.log("id", event.target.id);
-		FbApi.checker(event.target.id).then(() => {
+		let myTodo = {
+			isCompleted : event.target.checked,
+			task : $(event.target).siblings(".task").html()
+		};
+		FbApi.editTodo(apiKeys, myTodo, event.target.id).then(() => {
 			FbApi.writeDom(apiKeys);
 		}).catch((error) => {
 			console.log("checker error", error);

@@ -32,12 +32,6 @@ var FbApi = ((oldCrap) => {
 		});
 	};
 
-	oldCrap.checker = (apiKeys, id) => {
-		return new Promise((resolve, reject) => {
-			FbApi.setChecked(id);
-			resolve();
-		});
-	};
 
 	oldCrap.deleteTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
@@ -57,7 +51,7 @@ var FbApi = ((oldCrap) => {
 			$.ajax({
 				method : "PUT",
 				url : `${apiKeys.databaseURL}/items/${id}.json`,
-				data: JSON.stringify(editTodo)
+				data: JSON.stringify(newTodo)
 			}).done(() => {
 				resolve();
 			}).fail((error) => {
