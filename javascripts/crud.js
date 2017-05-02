@@ -18,7 +18,7 @@ var FbApi = ((oldCrap) => {
 		});	
 	};
 
-	oldCrap.addTodo = (newTodo) => {
+	oldCrap.addTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
 			newTodo.id = `item${FbApi.todoGetter().length}`;
 			console.log("newTodo", newTodo);
@@ -27,21 +27,28 @@ var FbApi = ((oldCrap) => {
 		});
 	};
 
-	oldCrap.checker = (id) => {
+	oldCrap.checker = (apiKeys, id) => {
 		return new Promise((resolve, reject) => {
 			FbApi.setChecked(id);
 			resolve();
 		});
 	};
 
-	oldCrap.deleteTodo = (id) => {
+	oldCrap.deleteTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
-			FbApi.duhlete(id);
-			resolve();
+			$.ajax({
+				method : "DELETE",
+				url : `${apiKeys.databaseURL}/items/${id}.json`
+			}).done(() => {
+				resolve();
+			}).fail((error) => {
+				reject(error);
+			});
+
 		});
 	};
 
-	oldCrap.editTodo = (id) => {
+	oldCrap.editTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
 			FbApi.duhlete(id);
 			resolve();
