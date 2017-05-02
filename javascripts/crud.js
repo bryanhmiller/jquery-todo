@@ -18,12 +18,17 @@ var FbApi = ((oldCrap) => {
 		});	
 	};
 
-	oldCrap.addTodo = (apiKeys, id) => {
+	oldCrap.addTodo = (apiKeys, newTodo) => {
 		return new Promise ((resolve, reject) => {
-			newTodo.id = `item${FbApi.todoGetter().length}`;
-			console.log("newTodo", newTodo);
-			FbApi.setSingleTodo(newTodo);
-			resolve();
+			$.ajax({
+				method : "POST",
+				url : `${apiKeys.databaseURL}/items.json`,
+				data: JSON.stringify(newTodo)
+			}).done(() => {
+				resolve();
+			}).fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
@@ -44,7 +49,6 @@ var FbApi = ((oldCrap) => {
 			}).fail((error) => {
 				reject(error);
 			});
-
 		});
 	};
 

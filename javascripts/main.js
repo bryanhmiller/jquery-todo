@@ -25,8 +25,7 @@ $(document).ready(() => {
 			isCompleted: false,
 			task: $("#add-todo-text").val()
 		};
-
-		FbApi.addTodo(newTodo).then(() => {
+		FbApi.addTodo(apiKeys, newTodo).then(() => {
 			$("#add-todo-text").val("");
 			$(".new-container").addClass("hide");
 			$(".list-container").removeClass("hide");
