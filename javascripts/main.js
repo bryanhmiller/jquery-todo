@@ -81,4 +81,45 @@ $(document).ready(() => {
 		});
 	});
 
+	$("#registerButton").click(() => {
+		let email = $("#inputEmail").val();
+		let password = $("#inputPassword").val();
+		let username = $("#inputUsername").val();
+
+		let user = {email, password	};
+		FbApi.registerUser(user).then((response) => {
+			console.log("register response", response.uid);
+			let newUser = {
+				uid : response.uid,
+				username : username
+			};
+			FbApi.addUser(apiKeys, newUser).then((response) => {
+				console.log("addUser", response);
+			}).catch((error) => {
+				console.log("error in addUser", error);
+			});
+		}).catch((error) => {
+			console.log("error in registerUser", error);
+		});
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
