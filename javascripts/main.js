@@ -94,7 +94,14 @@ $(document).ready(() => {
 				username : username
 			};
 			FbApi.addUser(apiKeys, newUser).then((response) => {
-				console.log("addUser", response);
+				FbApi.loginUser(user).then((response) => {
+					clearLogin();
+					$("#login-container").addClass("hide");
+					$("#main-container").removeClass("hide");
+					FbApi.writeDom(apiKeys);
+		}).catch((error) => {
+			console.log("error in loginUser", error);
+		});
 			}).catch((error) => {
 				console.log("error in addUser", error);
 			});
@@ -103,7 +110,29 @@ $(document).ready(() => {
 		});
 	});
 
+	let clearLogin = () => {
+		$("#inputEmail").val("");
+		$("#inputPassword").val("");
+		$("#inputUsername").val("");
+	};
 
+	$("#loginButton").click(() => {
+		let email =$("#inputEmail").val();
+		let password =$("#inputPassword").val();
+
+		let user = { email, password};
+
+		FbApi.loginUser(user).then((response) => {
+			clearLogin();
+			$("#login-container").addClass("hide");
+			$("#main-container").removeClass("hide");
+			FbApi.writeDom(apiKeys);
+		}).catch((error) => {
+			console.log("error in loginUser", error);
+		});
+
+
+	});
 
 
 
