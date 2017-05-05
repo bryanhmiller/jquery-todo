@@ -20,8 +20,9 @@ var FbApi = ((dogs) => {
 			$.ajax({
 				method: "GET",
 				url : `${keys.databaseURL}/users.json?orderBy="uid"&equalTo="${uid}"`
-			}).done((response) => {
-				console.log("user iife get", response);
+			}).done((user) => {
+				console.log("user iife get", user);
+				let response = user;
 				Object.keys(response).forEach((key)=>{ //use for every Firebase app
 					response[key].id = key;
 					users.push(response[key]);
