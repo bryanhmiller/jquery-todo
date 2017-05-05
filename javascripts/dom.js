@@ -1,11 +1,5 @@
 var FbApi = ((otherOldCrap) =>{
 
- 	otherOldCrap.countTask = () => {
- 		let remainingTasks = $("#incomplete-tasks li").length;
- 		$("#counter").hide().fadeIn(300).html(remainingTasks);
- 	};
-
-
 	otherOldCrap.writeDom = (keys) => {
 		FbApi.getTodos(keys).then((results)=>{
 
@@ -47,6 +41,21 @@ var FbApi = ((otherOldCrap) =>{
 	};
 
 
+ 	otherOldCrap.countTask = () => {
+ 		let remainingTasks = $("#incomplete-tasks li").length;
+ 		$("#counter").hide().fadeIn(300).html(remainingTasks);
+ 	};
+
+ 	otherOldCrap.createLogOutButton = (apiKey) => {
+ 		let	uid = FbApi.credentialsCurrentUser().uid;
+ 		FbApi.getUser(apiKey, uid)
+ 		.then((user) => {
+ 			let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT ${user.username}</button>`;
+ 			$("#logout-container").html(logoutButton);
+ 		}).catch((error) => {
+ 			console.log("createLogOutButton error", error);
+ 		});
+ 	};
 
 	return otherOldCrap;
 })(FbApi || {}); 
